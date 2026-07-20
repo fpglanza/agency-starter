@@ -1,0 +1,64 @@
+---
+const pathname = Astro.url.pathname;
+
+const labelMap: Record<string, string> = {
+  "": "Home",
+  "chi-siamo": "Chi siamo",
+  "patente-auto": "Patente Auto",
+  "pratiche": "Pratiche e rinnovi",
+  "patenti": "Patenti",
+  "contatti": "Contatti",
+};
+
+const segments = pathname.split("/").filter(Boolean);
+
+const crumbs =
+  segments.length === 0
+    ? [{ href: "/", label: "Home" }]
+    : [
+        { href: "/", label: "Home" },
+        ...segments.map((segment, index) => {
+          const href = "/" + segments.slice(0, index + 1).join("/");
+          return {
+            href,
+            label:
+              labelMap[segment] ??
+              segment.replace(/-/g, " ").replace(/\b\w/g, (m) => m.toUpperCase()),
+          };
+        }),
+      ];
+---
+
+<nav aria-label="Breadcrumb" class="pt-4 pb-0 md:pt-5 md:pb-0">
+  <div class="container">
+    <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[var(--color-secondary)]/55">
+      {crumbs.map((crumb, index) => {
+        const isLast = index === crumbs.length - 1;
+        return (
+          <>
+            <li>
+              {isLast ? (
+                <span class="font-semibold text-[var(--color-secondary)]">
+                  {crumb.label}
+                </span>
+              ) : (
+                <a
+                  href={crumb.href}
+                  class="transition hover:text-[var(--color-secondary)]"
+                >
+                  {crumb.label}
+                </a>
+              )}
+            </li>
+
+            {!isLast && (
+              <li aria-hidden="true" class="text-[var(--color-secondary)]/35">
+                /
+              </li>
+            )}
+          </>
+        );
+      })}
+    </ol>
+  </div>
+</nav>

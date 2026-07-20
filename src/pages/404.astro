@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Pagina non trovata">
+  <section class="section">
+    <div class="container max-w-2xl text-center">
+      <h1 class="text-4xl font-bold">
+        Ops! Siamo finiti un po’ fuori strada.
+      </h1>
+
+      <p class="mt-6 text-lg leading-8 text-black/70">
+        Niente panico: capita anche ai migliori piloti di mancare un’uscita. Il bello di essere in famiglia è che c’è sempre qualcuno pronto a darti una mano per rimetterti in carreggiata.
+      </p>
+
+      <p class="mt-4 text-base text-black/60">
+        Non restare qui a bordo strada, riprendiamo il giro:
+      </p>
+
+      <div class="mt-8 flex flex-col gap-4 md:flex-row md:justify-center">
+        <a
+          href="/"
+          class="btn-racing-primary"
+          data-track="cta_click"
+          data-location="404"
+          data-section="home"
+        >
+          Torna in carreggiata
+        </a>
+
+        <a
+          href="/scuola-nautica"
+          class="btn-secondary"
+          data-track="cta_click"
+          data-location="404"
+          data-section="scuola-nautica"
+        >
+          Cambia rotta
+        </a>
+
+        <a
+          href="/contatti"
+          class="btn-secondary"
+          data-track="cta_click"
+          data-location="404"
+          data-section="contatti"
+        >
+          Chiedi indicazioni
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

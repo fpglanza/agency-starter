@@ -1,0 +1,446 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/ui/Icon.astro";
+import { getPageContent } from "../lib/content";
+import { homeData } from "../data/home";
+import { icons } from "../lib/icons";
+import heroBg from "../assets-optimized/logo/Hero Banner Home R.webp";
+import favaroImg from "../assets-optimized/logo/Ufficio (favaro).webp";
+import salzanoImg from "../assets-optimized/logo/Sala (salzano) 2.webp";
+import lessonImg from "../assets-optimized/logo/Fiore a lezione.webp";
+import lightTrailImg from "../assets-optimized/logo/Light trail.webp";
+
+const page = await getPageContent("home");
+const { title, description } = page.data;
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- HERO -->
+   <section class="relative h-screen w-full overflow-hidden">
+      <img
+        src={heroBg.src}
+        alt="Autoscuola Racing"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#07102f]/35 to-[#05091f] mix-blend-multiply"></div>
+
+      <div class="relative z-10 flex h-full items-center justify-center text-center">
+        <div class="container">
+          <div class="mx-auto flex max-w-4xl flex-col items-center pt-24 pb-10">
+            <p class="mb-2 max-w-[900px] text-center text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-white md:text-xs">
+              {homeData.hero.label}
+            </p>
+            <h1
+              class="heading-hero text-[clamp(2.5rem,6vw,6rem)]"
+            >
+              {homeData.hero.heading}
+            </h1>
+            <div class="mt-5 max-w-2xl space-y-3 text-sm leading-6 text-white md:text-base md:leading-7">
+              {homeData.hero.intro.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+            <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+              <a
+                href={homeData.hero.cta.href}
+                class="btn-racing-lime"
+                data-track="cta_click"
+                data-location="home"
+                data-section="hero"
+              >
+                {homeData.hero.cta.label}
+              </a>
+              <a
+                href="/patente-auto"
+                class="btn-racing-ghost-lime"
+                data-track="cta_click"
+                data-location="home"
+                data-section="hero"
+              >
+                scopri patente auto
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <!-- AUTOSCUOLA A FAVARO E SALZANO -->
+  <section class="section">
+    <div class="container max-w-4xl">
+      <h2 class="text-center text-[30px] uppercase leading-tight text-[var(--color-secondary)] md:text-[40px]">
+        {homeData.locationsIntro.title}
+      </h2>
+
+      <p class="mx-auto mt-6 max-w-3xl text-center text-base leading-7 text-[var(--color-text)]/80 md:text-lg md:leading-8">
+        {homeData.locationsIntro.body}
+      </p>
+
+      <div class="mt-14 grid gap-10 md:grid-cols-2 md:gap-12">
+        {homeData.locations.map((item, index) => {
+          const image = index === 0 ? favaroImg : salzanoImg;
+
+          return (
+            <article class="overflow-hidden rounded-[32px] border border-black/5 bg-white shadow-[0_18px_45px_rgba(18,19,93,0.08)] transition duration-300 hover:-translate-y-1">
+
+              {/* IMMAGINE */}
+              <div class="relative h-[260px] w-full overflow-hidden">
+                <img
+                  src={image.src}
+                  alt={item.title}
+                  class="h-full w-full object-cover"
+                />
+
+                {/* overlay leggero */}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent"></div>
+              </div>
+
+              {/* CONTENUTO */}
+              <div class="p-8">
+                <h3 class="text-[24px] uppercase leading-[1.1] text-[var(--color-secondary)] md:text-[28px]">
+                  {item.title}
+                </h3>
+
+                <p class="mt-5 text-sm leading-7 text-[var(--color-text)]/80 md:text-base">
+                  {item.text}
+                </p>
+              </div>
+
+            </article>
+          );
+        })}
+      </div>
+
+      <p class="mx-auto mt-10 max-w-3xl text-center text-base leading-7 text-[var(--color-text)]/80 md:text-lg md:leading-8">
+        {homeData.serviceNote}
+      </p>
+    </div>
+  </section>
+
+  <!-- IL NOSTRO APPROCCIO -->
+  <section class="relative overflow-hidden bg-[var(--color-secondary)]">
+    <div class="grid min-h-[620px] lg:grid-cols-[1.05fr_0.95fr]">
+
+      <!-- IMMAGINE -->
+      <div class="relative min-h-[420px] lg:min-h-full">
+        <img
+          src={lessonImg.src}
+          alt="Lezione Autoscuola Racing"
+          class="h-full w-full object-cover lg:[clip-path:polygon(0_0,100%_0,78%_100%,0_100%)]"
+        />
+
+        <!-- overlay cinematic -->
+        <div class="absolute inset-0 bg-gradient-to-r from-black/35 via-black/10 to-transparent mix-blend-multiply"></div>
+      </div>
+
+      <!-- TESTO -->
+      <div class="relative flex items-center overflow-hidden">
+        <div class="relative z-10 w-full px-8 py-16 md:px-12 lg:px-20">
+          <div>
+            <p class="mb-4 text-xs uppercase tracking-[0.25em] text-white/50">
+              {homeData.approach.label}
+            </p>
+
+            <h2 class="text-[34px] uppercase leading-[0.9] text-[var(--color-primary)] md:text-[52px]">
+              {homeData.approach.title}
+            </h2>
+
+            <div class="mt-7 max-w-[640px] space-y-4 text-justify text-[15px] leading-[1.6] text-white/80 md:text-[17px]">
+              {homeData.approach.body.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+
+            <div class="mt-9">
+              <a
+                href={homeData.approach.cta.href}
+                class="btn-racing-ghost-lime"
+                data-track="cta_click"
+                data-location="home"
+                data-section="approach"
+              >
+                {homeData.approach.cta.label}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- I PERCORSI -->
+  <section class="section">
+    <div class="container max-w-5xl">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="text-[30px] uppercase leading-tight text-[var(--color-secondary)] md:text-[40px]">
+          {homeData.paths.title}
+        </h2>
+
+        <p class="mt-6 text-base leading-7 text-[var(--color-text)]/80 md:text-lg md:leading-8">
+          {homeData.paths.intro}
+        </p>
+      </div>
+
+      <div class="mt-20 grid gap-14 md:grid-cols-3">
+        {homeData.paths.items.map((item, index) => (
+          <article class="group flex h-full min-h-[400px] flex-col items-center text-center">
+
+            <!-- linea -->
+            <div class="relative mb-8 w-full border-t border-black/8">
+
+              <!-- icona -->
+              <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2">
+
+                <div
+                  class:list={[
+                    "flex h-[74px] w-[74px] items-center justify-center rounded-full shadow-[0_14px_28px_rgba(18,19,93,0.10)] transition-all duration-300 group-hover:scale-105",
+                    index % 2 === 0
+                      ? "bg-[var(--color-primary)] text-[var(--color-secondary)]"
+                      : "bg-[var(--color-secondary)] text-[var(--color-primary)]",
+                  ]}
+                >
+
+                  {index === 0 && (
+                    <Icon src={icons.steeringWheel} class="h-7 w-7" />
+                  )}
+
+                  {index === 1 && (
+                    <Icon src={icons.carChassis} class="h-7 w-7" />
+                  )}
+
+                  {index === 2 && (
+                    <Icon src={icons.flag} class="h-7 w-7" />
+                  )}
+
+                </div>
+              </div>
+            </div>
+
+            <!-- titolo -->
+            <h3 class="mt-12 max-w-[240px] text-[22px] uppercase leading-[1.05] text-[var(--color-secondary)] md:text-[24px]">
+              {item.title}
+            </h3>
+
+            <!-- testo -->
+            <p class="mt-5 max-w-[320px] text-[15px] leading-8 text-[var(--color-text)]/80 md:text-base">
+              {item.text}
+            </p>
+
+            <!-- CTA -->
+            <div class="mt-auto pt-8">
+              <a
+                href={item.href}
+                class="btn-secondary"
+                data-track="cta_click"
+                data-location="home"
+                data-section="paths"
+              >
+                {item.ctaLabel}
+              </a>
+            </div>
+
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PERCHÉ SCEGLIERE IL METODO RACING -->
+  <section class="relative overflow-hidden">
+
+    <!-- BACKGROUND -->
+    <div class="absolute inset-0">
+      <img
+        src={lightTrailImg.src}
+        alt=""
+        class="h-full w-full object-cover"
+      />
+
+      <!-- overlay cinematic -->
+      <div class="absolute inset-0 bg-[rgba(7,10,35,0.72)] mix-blend-multiply"></div>
+
+      <!-- gradiente lettura -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-[var(--color-secondary)]/35 to-[var(--color-secondary)]/75"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="relative z-10">
+      <div class="container py-28 md:py-36">
+
+        <div class="max-w-4xl">
+
+          <p class="mb-5 text-xs uppercase tracking-[0.28em] text-white/50">
+            Autoscuola Racing
+          </p>
+
+          <h2 class="max-w-3xl text-[34px] uppercase leading-[0.9] text-[var(--color-primary)] md:text-[64px]">
+            {homeData.whyUs.title}
+          </h2>
+
+          <div class="mt-10 max-w-2xl space-y-5 text-base leading-7 text-white/82 md:text-lg md:leading-[1.7]">
+            {homeData.whyUs.body.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- STORIA E TERRITORIO -->
+  <section class="section">
+    <div class="container max-w-4xl">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="text-center text-[30px] uppercase leading-tight text-[var(--color-secondary)] md:text-[40px]">
+          {homeData.territory.title}
+        </h2>
+
+        <div class="mt-8 space-y-5 text-base leading-7 text-[var(--color-text)]/80 md:text-lg md:leading-8">
+          {homeData.territory.body.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO PRATICHE E CONTATTI -->
+  <section class="relative overflow-hidden bg-[#F8F9FF] py-24 md:py-32">
+    <div class="container max-w-6xl">
+
+      <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+
+        <!-- INTRO -->
+        <div class="lg:sticky lg:top-32">
+          <p class="mb-4 text-xs uppercase tracking-[0.25em] text-[var(--color-secondary)]/45">
+            contatti e sedi
+          </p>
+
+          <h2 class="text-[34px] uppercase leading-[0.9] text-[var(--color-secondary)] md:text-[52px]">
+            {homeData.practicalInfo.title}
+          </h2>
+
+          <p class="mt-7 text-base leading-7 text-[var(--color-text)]/80 md:text-lg md:leading-8">
+            {homeData.practicalInfo.body}
+          </p>
+
+          <div class="mt-9 flex flex-col gap-4 sm:flex-row lg:flex-col">
+            {homeData.practicalInfo.ctas.map((cta) => (
+              <a
+                href={cta.href}
+                class={cta.variant === "primary" ? "btn-racing-primary" : "btn-secondary"}
+                data-track={cta.href.startsWith("https://wa.me/") ? "whatsapp_click" : "cta_click"}
+                data-location="home"
+                data-section="practical-info"
+              >
+                {cta.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="space-y-6">
+
+          <!-- SEDI -->
+          <div class="grid gap-6 md:grid-cols-2">
+            <article class="group relative overflow-hidden rounded-[32px] bg-white p-7 shadow-[0_18px_45px_rgba(18,19,93,0.08)] transition-all duration-300 hover:-translate-y-1">
+              <div class="mb-8 flex items-center justify-between">
+                <span class="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-primary)] text-[var(--color-secondary)] shadow-[0_14px_28px_rgba(18,19,93,0.12)]">
+                  01
+                </span>
+                <span class="ml-5 h-px flex-1 bg-black/10"></span>
+              </div>
+
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-secondary)]/45">
+                Sede di Favaro Veneto
+              </p>
+
+              <div class="mt-5 space-y-3 text-base leading-7 text-[var(--color-text)]/80">
+                <p>
+                  <strong class="text-[var(--color-secondary)]">Indirizzo:</strong><br />
+                  Via M.te Cervino, 23/a<br />
+                  30173 Favaro Veneto (VE)
+                </p>
+
+                <p>
+                  <strong class="text-[var(--color-secondary)]">Orari segreteria:</strong><br />
+                  Lunedi - Venerdi: 9:00-12:00 / 16:00-19:00
+                </p>
+
+                <p>
+                  <strong class="text-[var(--color-secondary)]">Telefono:</strong><br />
+                  <a
+                    href="tel:+39041630163"
+                    class="font-semibold hover:text-[var(--color-primary)]"
+                    data-track="phone_click"
+                    data-location="favaro"
+                    data-section="practical-info"
+                  >
+                    +39 041 630163
+                  </a>
+                </p>
+              </div>
+            </article>
+
+            <article class="group relative overflow-hidden rounded-[32px] bg-white p-7 shadow-[0_18px_45px_rgba(18,19,93,0.08)] transition-all duration-300 hover:-translate-y-1">
+              <div class="mb-8 flex items-center justify-between">
+                <span class="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-secondary)] text-[var(--color-primary)] shadow-[0_14px_28px_rgba(18,19,93,0.12)]">
+                  02
+                </span>
+                <span class="ml-5 h-px flex-1 bg-black/10"></span>
+              </div>
+
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-secondary)]/45">
+                Sede di Salzano
+              </p>
+
+              <div class="mt-5 space-y-3 text-base leading-7 text-[var(--color-text)]/80">
+                <p>
+                  <strong class="text-[var(--color-secondary)]">Indirizzo:</strong><br />
+                  Via A. De Gasperi, 84<br />
+                  30030 Salzano (VE)
+                </p>
+
+                <p>
+                  <strong class="text-[var(--color-secondary)]">Orari segreteria:</strong><br />
+                  Lunedi - Venerdi: 9:00-12:00 / 16:30-19:00
+                </p>
+
+                <p>
+                  <strong class="text-[var(--color-secondary)]">Telefono:</strong><br />
+                  <a
+                    href="tel:+390415746510"
+                    class="font-semibold hover:text-[var(--color-primary)]"
+                    data-track="phone_click"
+                    data-location="salzano"
+                    data-section="practical-info"
+                  >
+                    +39 041 5746510
+                  </a>
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <!-- VISITE MEDICHE -->
+          <article class="relative overflow-hidden rounded-[36px] bg-[var(--color-secondary)] p-8 text-white shadow-[0_22px_55px_rgba(18,19,93,0.18)] md:p-10">
+            <div class="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[var(--color-primary)]/20 blur-2xl"></div>
+
+            <div class="relative z-10">
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-white/50">
+                Visite mediche in sede
+              </p>
+
+              <p class="mt-5 max-w-3xl text-base leading-7 text-white/82 md:text-lg md:leading-8">
+                {homeData.practicalInfo.medical}
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

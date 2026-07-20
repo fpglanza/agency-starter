@@ -1,0 +1,353 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/ui/Icon.astro";
+import { getPageContent } from "../lib/content";
+import { chiSiamoData } from "../data/chi-siamo";
+import { icons } from "../lib/icons";
+import chiSiamoHeroBg from "../assets/logo/Team 6.jpg";
+import supportoDedicatoImg from "../assets/logo/Supporto dedicato.jpeg";
+import smartphoneImg from "../assets-optimized/logo/Smartphone 3D.webp";
+import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+
+import team01 from "../assets-optimized/Team/team01.webp";
+import team02 from "../assets-optimized/Team/team02.webp";
+import team03 from "../assets-optimized/Team/team03.webp";
+import team04 from "../assets-optimized/Team/team04.webp";
+import team06 from "../assets-optimized/Team/team06.webp";
+
+const page = await getPageContent("chi-siamo");
+const { title, description } = page.data;
+
+const structureSteps = chiSiamoData.structure.items.map((item, index) => {
+  const [rawTitle, ...rest] = item.split(":");
+  return {
+    number: String(index + 1).padStart(2, "0"),
+    title: rawTitle?.trim() ?? "",
+    body: rest.join(":").trim(),
+  };
+});
+
+const teamMembers = [
+  {
+    image: team02.src,
+    name: "Cristiano Bellato",
+    role: "Founder, Istruttore",
+  },
+  {
+    image: team04.src,
+    name: "Fiorella Meneghel",
+    role: "Founder, Front Office",
+  },
+  {
+    image: team01.src,
+    name: "Alessandro Cominato",
+    role: "Istruttore",
+  },
+  {
+    image: team03.src,
+    name: "Elisa Pinton",
+    role: "Front Office",
+  },
+  {
+    image: team06.src,
+    name: "Ragnar Borghi",
+    role: "Istruttore",
+  },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- HERO -->
+  <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
+    <img
+      src={chiSiamoHeroBg.src}
+      alt="Team Autoscuola Racing"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+
+    <div class="absolute inset-0 hero-overlay-main"></div>
+    <div class="absolute inset-0 hero-overlay-side"></div>
+
+    <div class="relative z-10 flex min-h-screen items-center">
+      <div class="container">
+        <div class="max-w-3xl pt-56 pb-16 text-left md:pt-64 lg:pt-72">
+          <p class="mb-3 text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-white/80 md:text-xs">
+            Il nostro metodo
+          </p>
+
+          <h1 class="heading-hero text-left text-[clamp(2.7rem,6vw,6rem)]">
+            {chiSiamoData.hero.heading}
+          </h1>
+
+          <div class="mt-6 max-w-2xl text-left text-sm leading-6 text-white/85 md:text-base md:leading-7">
+            <p>{chiSiamoData.hero.intro}</p>
+          </div>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={chiSiamoData.hero.cta.href}
+              class="btn-racing-lime"
+              data-track="cta_click"
+              data-location="chi-siamo"
+              data-section="hero"
+            >
+              {chiSiamoData.hero.cta.label}
+            </a>
+
+            <a
+              href="#metodo"
+              class="btn-racing-ghost-lime"
+              data-track="cta_click"
+              data-location="chi-siamo"
+              data-section="hero"
+            >
+              scopri il metodo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Breadcrumbs />
+
+  <!-- STRUTTURA DEL PERCORSO -->
+  <section class="section section-light overflow-hidden">
+    <div class="container max-w-6xl">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="font-montserrat text-sm font-semibold uppercase tracking-[0.18em] text-[#2124BD]">
+          Il nostro processo
+        </p>
+
+        <h2 class="mt-4 font-heading text-4xl font-bold italic uppercase text-[#12135D] md:text-5xl">
+          {chiSiamoData.structure.title}
+        </h2>
+      </div>
+
+      <div class="relative mt-14">
+        <div class="absolute left-0 right-0 top-[28px] hidden border-t border-dashed border-[#12135D]/15 md:block"></div>
+
+        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+          {structureSteps.map((step, index) => (
+            <article class="relative text-center">
+              <div class="relative z-[1] mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#12135D]/10 bg-white shadow-sm">
+                <span class="font-montserrat text-xs font-bold tracking-[0.18em] text-[#12135D]/45">
+                  {step.number}
+                </span>
+              </div>
+
+              <div
+                class:list={[
+                  "mx-auto mt-5 flex h-20 w-20 items-center justify-center rounded-[22px] shadow-[0_20px_50px_rgba(18,19,93,0.12)]",
+                  index === 0 && "bg-[#D4FF00] text-[#12135D]",
+                  index === 1 && "bg-[#12135D] text-white",
+                  index === 2 && "bg-[#D4FF00] text-[#12135D]",
+                  index === 3 && "bg-[#12135D] text-white",
+                ]}
+              >
+                {index === 0 && (
+                  <Icon src={icons.light} class="h-9 w-9" />
+                )}
+
+                {index === 1 && (
+                  <Icon src={icons.clipboard} class="h-9 w-9" />
+                )}
+
+                {index === 2 && (
+                  <Icon src={icons.map} class="h-9 w-9" />
+                )}
+
+                {index === 3 && (
+                  <Icon src={icons.finish} class="h-9 w-9" />
+                )}
+              </div>
+
+              <h3 class="mt-6 font-heading text-xl font-bold italic text-[#12135D]">
+                {step.title}
+              </h3>
+
+              <p class="mx-auto mt-3 max-w-[18rem] font-montserrat text-sm leading-7 text-[#2C3E50]/80 md:text-[15px]">
+                {step.body}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COME SI PRENDE DAVVERO LA PATENTE -->
+  <section id="metodo" class="section scroll-mt-[140px]">
+    <div class="container max-w-3xl">
+      <h2 class="text-3xl font-bold uppercase">
+        {chiSiamoData.journey.title}
+      </h2>
+
+      <div class="mt-6 space-y-4 text-base leading-7 text-black/70 md:text-lg md:leading-8">
+        {chiSiamoData.journey.body.split("\n").map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section class="relative overflow-hidden bg-[#F8F9FF] py-24 md:py-32">
+    <div class="absolute -left-24 top-20 h-72 w-72 rounded-full bg-[var(--color-primary)]/20 blur-3xl"></div>
+    <div class="absolute -right-24 bottom-20 h-72 w-72 rounded-full bg-[var(--color-secondary)]/10 blur-3xl"></div>
+
+    <div class="container relative z-10 max-w-6xl">
+      <div class="mx-auto flex max-w-[520px] justify-center">
+        <img
+          src={smartphoneImg.src}
+          alt="App dedicata Autoscuola Racing"
+          class="h-auto w-full max-w-[420px] object-contain drop-shadow-[0_28px_45px_rgba(18,19,93,0.22)]"
+        />
+      </div>
+
+      <div class="mx-auto mt-10 max-w-3xl text-center">
+        <p class="mb-4 text-xs uppercase tracking-[0.25em] text-[var(--color-secondary)]/45">
+          app dedicata
+        </p>
+
+        <h2 class="text-[34px] uppercase leading-[0.9] text-[var(--color-secondary)] md:text-[52px]">
+          {chiSiamoData.app.title}
+        </h2>
+
+        <p class="mt-7 text-base leading-7 text-[var(--color-text)]/80 md:text-lg md:leading-8">
+          {chiSiamoData.app.body}
+        </p>
+      </div>
+
+      <div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+        {chiSiamoData.app.items.map((item, index) => (
+          <article class="group relative overflow-hidden rounded-[30px] border border-[#12135D]/10 bg-white p-7 shadow-[0_18px_45px_rgba(18,19,93,0.08)] transition-all duration-300 hover:-translate-y-1">
+            <div
+              class:list={[
+                "mb-6 flex h-12 w-12 items-center justify-center rounded-2xl text-sm font-bold shadow-[0_14px_30px_rgba(18,19,93,0.10)]",
+                index % 2 === 0
+                  ? "bg-[var(--color-primary)] text-[var(--color-secondary)]"
+                  : "bg-[var(--color-secondary)] text-white",
+              ]}
+            >
+              {String(index + 1).padStart(2, "0")}
+            </div>
+
+            <p class="text-sm leading-7 text-[var(--color-text)]/78 md:text-[15px]">
+              {item}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="relative overflow-hidden bg-white py-24 md:py-32">
+    <div class="absolute -left-24 top-20 h-72 w-72 rounded-full bg-[var(--color-primary)]/20 blur-3xl"></div>
+    <div class="absolute -right-24 bottom-20 h-72 w-72 rounded-full bg-[var(--color-secondary)]/10 blur-3xl"></div>
+
+    <div class="container relative z-10 max-w-6xl">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="mb-4 text-xs uppercase tracking-[0.25em] text-[var(--color-secondary)]/45">
+          il nostro team
+        </p>
+
+        <h2 class="text-[34px] uppercase leading-[0.9] text-[var(--color-secondary)] md:text-[52px]">
+          Persone vere, al tuo fianco.
+        </h2>
+
+        <p class="mt-7 text-base leading-7 text-[var(--color-text)]/80 md:text-lg md:leading-8">
+          Dietro ogni percorso c’è un team che ti ascolta, ti guida e ti accompagna con metodo.
+          In Autoscuola Racing non trovi solo istruttori, ma persone pronte a seguirti passo dopo passo.
+        </p>
+      </div>
+
+      <div class="mt-14 flex flex-wrap justify-center gap-6">
+        {teamMembers.map((member) => (
+          <article class="group relative w-full overflow-hidden rounded-[32px] bg-[var(--color-secondary)] shadow-[0_22px_55px_rgba(18,19,93,0.14)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
+            <div class="aspect-[4/5] overflow-hidden">
+              <img
+                src={member.image}
+                alt={`${member.name} - ${member.role}`}
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+
+            <div class="absolute inset-0 bg-gradient-to-t from-[#05091f]/82 via-[#05091f]/12 to-transparent opacity-90"></div>
+
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="h-1.5 w-14 rounded-full bg-[var(--color-primary)] transition-all duration-300 group-hover:w-24"></div>
+
+              <p class="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-white/55">
+                {member.role}
+              </p>
+
+              <p class="mt-2 text-xl font-bold uppercase leading-tight text-white">
+                {member.name}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PRONTO -->
+  <section class="section">
+    <div class="container max-w-3xl">
+      <h2 class="text-3xl font-bold uppercase">
+        {chiSiamoData.readiness.title}
+      </h2>
+
+      <div class="mt-6 space-y-4 text-base leading-7 text-black/70 md:text-lg md:leading-8">
+        {chiSiamoData.readiness.body.split("\n").map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+
+      <div class="mt-8">
+        <a
+          href={chiSiamoData.readiness.cta.href}
+          class="btn-racing-primary"
+          data-track="cta_click"
+          data-location="chi-siamo"
+          data-section="readiness"
+        >
+          {chiSiamoData.readiness.cta.label}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORTO -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0">
+      <img
+        src={supportoDedicatoImg.src}
+        alt=""
+        class="h-full w-full object-cover"
+      />
+
+      <div class="absolute inset-0 bg-[rgba(7,10,35,0.28)] mix-blend-multiply"></div>
+
+      <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-[var(--color-secondary)]/12 to-[var(--color-secondary)]/38"></div>
+    </div>
+
+    <div class="relative z-10">
+      <div class="container py-28 md:py-36">
+        <div class="max-w-4xl">
+          <h2 class="max-w-3xl text-[34px] uppercase leading-[0.9] text-[var(--color-primary)] md:text-[64px]">
+            {chiSiamoData.support.title}
+          </h2>
+
+          <div class="mt-10 max-w-2xl space-y-5 text-base leading-7 text-white/82 md:text-lg md:leading-[1.7]">
+            {chiSiamoData.support.body.split("\n").map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

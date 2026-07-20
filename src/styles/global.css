@@ -1,0 +1,297 @@
+@import "tailwindcss";
+@import "@fontsource-variable/exo-2/wght.css";
+@import "@fontsource-variable/exo-2/wght-italic.css";
+@import "@fontsource/montserrat/400.css";
+@import "@fontsource/montserrat/500.css";
+@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
+@import "@fontsource/montserrat/800.css";
+
+/* =====================
+   DESIGN TOKENS
+===================== */
+
+:root {
+  /* NUOVO DESIGN SYSTEM */
+  --color-primary: #D4FF00;
+  --color-secondary: #12135D;
+  --color-accent: #2124BD;
+  --color-text: #2C3E50;
+  --color-bg: #FFFFFF;
+
+  --font-heading: "Exo 2 Variable", sans-serif;
+  --font-body: "Montserrat", sans-serif;
+
+  /* LEGACY (temporaneo) */
+  --racing-green: #8dc63f;
+  --racing-accent: #8dda20;
+  --racing-dark: #071a30;
+  --racing-light: #f7f7f7;
+
+  --container: 72rem;
+}
+
+/* =====================
+   BASE
+===================== */
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-body);
+}
+
+h1 {
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+
+  letter-spacing: 0.05em;
+  line-height: 1.05;
+
+  color: var(--color-secondary);
+
+  /* effetto "doppio testo" */
+  text-shadow: -5px 0px 0 var(--color-primary);
+
+  /* migliora rendering */
+  display: block;
+}
+
+.hero-overlay-main {
+
+  background: linear-gradient(
+
+    to bottom,
+
+    transparent,
+
+    rgba(7, 16, 47, 0.15),
+
+    rgba(5, 9, 31, 0.55)
+
+  );
+
+  mix-blend-mode: multiply;
+
+}
+
+.hero-overlay-side {
+
+  background: linear-gradient(
+
+    to right,
+
+    rgba(5, 9, 31, 0.55),
+
+    rgba(7, 16, 47, 0.20),
+
+    transparent
+
+  );
+
+}
+
+.heading-hero {
+  color: var(--color-primary); /* LIME */
+  text-shadow:
+    -6px 0px 0 var(--color-secondary); /* BLU offset */
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 0.95; /* più compatto per evitare tagli */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+body,
+.font-body,
+.font-montserrat,
+.\!font-body {
+  font-family: var(--font-body) !important;
+}
+
+h2, h3 {
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* =====================
+   LAYOUT
+===================== */
+
+.container {
+  width: min(100% - 2rem, var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding: 4rem 0;
+}
+
+.section-light {
+  background: var(--color-bg);
+}
+
+/* =====================
+   BUTTONS
+===================== */
+
+/* NUOVO STANDARD */
+.btn-racing-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.9rem 1.8rem;
+  border-radius: 9999px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-style: italic;
+  text-transform: none;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border: none;
+  box-shadow: 0 8px 20px rgba(33, 36, 189, 0.25);
+  transition: all 0.25s ease;
+}
+
+.btn-racing-primary:hover {
+  transform: translateY(-3px);
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 12px 28px rgba(33, 36, 189, 0.45);
+}
+
+/* SECONDARIO (coerente con brand) */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 0.7rem 1.4rem;
+
+  border-radius: 9999px;
+  border: 2px solid var(--color-secondary);
+
+  background: transparent;
+  color: var(--color-secondary);
+
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-style: italic;
+  text-transform: none;
+
+  transition: all 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary);
+  color: var(--color-primary); /* 👈 LIME */
+}
+
+.btn-racing-lime {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.9rem 1.8rem;
+  border-radius: 9999px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-style: italic;
+  background-color: var(--color-primary); /* LIME */
+  color: var(--color-secondary); /* BLU */
+  border: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s ease;
+}
+
+/* HOVER = effetto accelerazione */
+.btn-racing-lime:hover {
+    transform: translateX(6px); /* 👉 movimento laterale */
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    background: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary); /* LIME */
+}
+
+/* ACTIVE (click) = micro feedback */
+.btn-racing-lime:active {
+    transform: translateX(2px) scale(0.98);
+}
+
+.btn-racing-ghost-lime {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 0.7rem 1.4rem;
+
+  border-radius: 9999px;
+
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-style: italic;
+
+  background: transparent;
+  color: var(--color-primary); /* LIME */
+
+  border: 2px solid var(--color-primary);
+
+  transition: all 0.25s ease;
+}
+
+/* HOVER = accelerazione */
+.btn-racing-ghost-lime:hover {
+  transform: translateX(6px);
+  background: var(--color-primary);
+  color: var(--color-secondary); /* BLU */
+}
+
+/* =====================
+   UTILITIES
+===================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

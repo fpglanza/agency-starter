@@ -1,0 +1,206 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/ui/Icon.astro";
+import { patentiData } from "../data/patenti";
+import { icons } from "../lib/icons";
+import patentiHeroBg from "../assets-optimized/logo/volante auto R.webp";
+import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+---
+
+<BaseLayout title="Le nostre patenti">
+  <!-- HERO -->
+  <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
+    <img
+      src={patentiHeroBg.src}
+      alt="Le nostre patenti Autoscuola Racing"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+
+    <!-- Overlay coerente con homepage -->
+    <div class="absolute inset-0 hero-overlay-main"></div>
+
+    <!-- Overlay laterale per leggibilità testo a sinistra -->
+    <div class="absolute inset-0 hero-overlay-side"></div>
+
+    <div class="relative z-10 flex min-h-screen items-center">
+      <div class="container">
+        <div class="max-w-3xl pt-28 pb-16 text-left">
+          <p class="mb-3 text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-white/80 md:text-xs">
+            Patenti
+          </p>
+
+          <h1 class="heading-hero text-left text-[clamp(2.7rem,6vw,6rem)]">
+            {patentiData.hero.heading}
+          </h1>
+
+          <div class="mt-6 max-w-2xl text-left text-sm leading-6 text-white/85 md:text-base md:leading-7">
+            <p>{patentiData.hero.intro}</p>
+          </div>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#lista-patenti"
+              class="btn-racing-lime"
+              data-track="cta_click"
+              data-location="patenti"
+              data-section="hero"
+            >
+              scopri le patenti
+            </a>
+
+            <a
+              href="/contatti"
+              class="btn-racing-ghost-lime"
+              data-track="cta_click"
+              data-location="patenti"
+              data-section="hero"
+            >
+              chiedi informazioni
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <Breadcrumbs />
+  <section id="lista-patenti" class="section scroll-mt-[140px]">
+    <div class="container max-w-4xl">
+      <div class="space-y-4">
+        {patentiData.items.map((item) => (
+          <div
+            id={item.slug}
+            class="scroll-mt-36 overflow-hidden rounded-2xl border border-black/10"
+            data-accordion-item={item.slug}
+          >
+            <button
+              type="button"
+              class="flex w-full items-center justify-between p-4 text-left"
+              data-toggle={item.slug}
+              aria-expanded="false"
+              aria-controls={`content-${item.slug}`}
+            >
+              <span class="text-[20px] text-[var(--color-secondary)] md:text-[24px]">
+                {item.title}
+              </span>
+
+              <span
+                class="transition-transform duration-200"
+                data-icon={item.slug}
+                aria-hidden="true"
+              >
+                <Icon src={icons.chevron} class="h-5 w-5" />
+              </span>
+            </button>
+
+            <div
+              id={`content-${item.slug}`}
+              class="hidden space-y-3 px-4 pb-4 text-sm text-[var(--color-text)]/80"
+              data-content={item.slug}
+            >
+              {item.content.map((text) => (
+                <p>{text}</p>
+              ))}
+
+              <div class="pt-2">
+                <a
+                  href={item.cta.href}
+                  class="btn-secondary"
+                  data-track="cta_click"
+                  data-location="patenti"
+                  data-section={item.slug}
+                >
+                  {item.cta.label}
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const items = document.querySelectorAll("[data-accordion-item]");
+
+  function closeAll() {
+    items.forEach((item) => {
+      const id = item.getAttribute("data-accordion-item");
+      const button = document.querySelector(`[data-toggle="${id}"]`);
+      const content = document.querySelector(`[data-content="${id}"]`);
+      const icon = document.querySelector(`[data-icon="${id}"]`);
+
+      button?.setAttribute("aria-expanded", "false");
+      content?.classList.add("hidden");
+
+      if (icon instanceof HTMLElement) {
+        icon.style.transform = "rotate(0deg)";
+      }
+    });
+  }
+
+  function scrollWithOffset(element) {
+    const y = element.getBoundingClientRect().top + window.scrollY - 140;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+
+  function openItem(id, shouldScroll = true) {
+    const button = document.querySelector(`[data-toggle="${id}"]`);
+    const content = document.querySelector(`[data-content="${id}"]`);
+    const icon = document.querySelector(`[data-icon="${id}"]`);
+    const wrapper = document.getElementById(id);
+
+    if (!button || !content || !wrapper) return;
+
+    closeAll();
+
+    button.setAttribute("aria-expanded", "true");
+    content.classList.remove("hidden");
+
+    if (icon instanceof HTMLElement) {
+      icon.style.transform = "rotate(180deg)";
+    }
+
+    if (shouldScroll) {
+      requestAnimationFrame(() => {
+        scrollWithOffset(wrapper);
+      });
+    }
+  }
+
+  function syncFromHash(shouldScroll = true) {
+    const hash = window.location.hash.replace("#", "");
+
+    if (hash) {
+      openItem(hash, shouldScroll);
+    } else {
+      closeAll();
+    }
+  }
+
+  document.querySelectorAll("[data-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-toggle");
+      const content = document.querySelector(`[data-content="${id}"]`);
+      const isOpen = content && !content.classList.contains("hidden");
+
+      if (!id) return;
+
+      if (isOpen) {
+        closeAll();
+        history.replaceState(null, "", "/patenti");
+      } else {
+        openItem(id, true);
+        history.replaceState(null, "", `/patenti#${id}`);
+      }
+    });
+  });
+
+  window.addEventListener("load", () => {
+    syncFromHash(true);
+  });
+
+  window.addEventListener("hashchange", () => {
+    syncFromHash(true);
+  });
+</script>
