@@ -14,17 +14,21 @@ const currentPath = normalizePath(Astro.url.pathname);
 
 const desktopNavigation = navigation.filter((item) => item.href !== "/");
 
+const isNavigationItem = (
+  item: (typeof navigation)[number] | undefined,
+): item is (typeof navigation)[number] => item !== undefined;
+
 const leftNavigation = [
   navigation.find((item) => item.href === "/"),
   desktopNavigation.find((item) => item.href === "/chi-siamo"),
   desktopNavigation.find((item) => item.href === "/patente-auto"),
-].filter(Boolean);
+].filter(isNavigationItem);
 
 const rightNavigation = [
   desktopNavigation.find((item) => item.href === "/pratiche"),
   desktopNavigation.find((item) => item.href === "/patenti"),
   desktopNavigation.find((item) => item.href === "/contatti"),
-].filter(Boolean);
+].filter(isNavigationItem);
 
 const isActive = (href: string) => currentPath === normalizePath(href);
 ---
@@ -174,7 +178,7 @@ const isActive = (href: string) => currentPath === normalizePath(href);
 
                   <span
                     data-mobile-patenti-icon
-                    class:list([
+                    class:list={[
                       "transition-transform duration-200",
                       isActive(item.href) ? "rotate-180" : "",
                     ]}

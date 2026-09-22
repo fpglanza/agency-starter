@@ -21,7 +21,7 @@ const pathItems = patenteAutoData.path.items.map((item) => {
 });
 ---
 
-<BaseLayout title={title} description={description} breadcrumbs={false}>
+<BaseLayout title={title} description={description}>
   <!-- HERO -->
   <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
     <img
@@ -502,7 +502,9 @@ const pathItems = patenteAutoData.path.items.map((item) => {
         `[data-faq-content="${id}"]`
       );
 
-      content.classList.toggle("hidden");
+      if (content) {
+        content.classList.toggle("hidden");
+      }
     });
   });
 </script>

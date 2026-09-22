@@ -4,7 +4,18 @@ type TrackingWindow = Window & {
   __trackingInitialized?: boolean;
 };
 
-type TrackingParameters = Record<string, string | number | (() => void)>;
+type TrackingParameters = {
+  send_to: string;
+  event_category: string;
+  location: string;
+  section: string;
+  office: string;
+  text: string;
+  href: string;
+  page_path: string;
+  event_callback?: () => void;
+  event_timeout?: number;
+};
 
 const trackingWindow = window as TrackingWindow;
 const GA4_MEASUREMENT_ID = "G-N5XYL25R5K";
@@ -26,7 +37,10 @@ if (!trackingWindow.__trackingInitialized) {
 
       if (!element) return;
 
-      const anchor = element instanceof HTMLAnchorElement ? element : element.closest("a[href]");
+      const anchor =
+        element instanceof HTMLAnchorElement
+          ? element
+          : element.closest<HTMLAnchorElement>("a[href]");
       const href = anchor?.href || "";
       const eventName =
         element.dataset.track ||
@@ -35,7 +49,7 @@ if (!trackingWindow.__trackingInitialized) {
 
       if (!eventName) return;
 
-      const parameters = {
+      const parameters: TrackingParameters = {
         send_to: GA4_MEASUREMENT_ID,
         event_category: "engagement",
         location: element.dataset.location || "",

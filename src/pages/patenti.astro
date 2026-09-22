@@ -139,12 +139,12 @@ import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
     });
   }
 
-  function scrollWithOffset(element) {
+  function scrollWithOffset(element: HTMLElement) {
     const y = element.getBoundingClientRect().top + window.scrollY - 140;
     window.scrollTo({ top: y, behavior: "smooth" });
   }
 
-  function openItem(id, shouldScroll = true) {
+  function openItem(id: string, shouldScroll = true) {
     const button = document.querySelector(`[data-toggle="${id}"]`);
     const content = document.querySelector(`[data-content="${id}"]`);
     const icon = document.querySelector(`[data-icon="${id}"]`);
