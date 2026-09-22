@@ -1,0 +1,71 @@
+---
+import Icon from "../components/ui/Icon.astro";
+
+export interface ProcessStep {
+  icon: string;
+  title: string;
+  description: string;
+  number?: string;
+}
+
+interface Props {
+  steps: ProcessStep[];
+  id?: string;
+  class?: string;
+}
+
+const { steps, id, class: className } = Astro.props;
+const hasNumbers = steps.some((step) => step.number !== undefined);
+const gridColumns = steps.length === 3 ? "xl:grid-cols-3" : "xl:grid-cols-4";
+---
+
+<section id={id} class:list={["section overflow-hidden", className]}>
+  <div class="container max-w-6xl">
+    <slot name="header" />
+
+    <div class="relative mt-14">
+      <div
+        class:list={[
+          "absolute left-0 right-0 hidden border-t border-dashed border-[var(--color-secondary)]/15",
+          hasNumbers ? "top-[28px] md:block" : "top-10 xl:block",
+        ]}
+      ></div>
+
+      <div class:list={["grid gap-8 md:grid-cols-2 xl:gap-10", gridColumns]}>
+        {steps.map((step, index) => (
+          <article class="relative text-center">
+            {step.number && (
+              <div class="relative z-[1] mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[var(--color-secondary)]/10 bg-white shadow-sm">
+                <span class="font-montserrat text-xs font-bold tracking-[0.18em] text-[var(--color-secondary)]/45">
+                  {step.number}
+                </span>
+              </div>
+            )}
+
+            <div
+              class:list={[
+                "relative z-[1] mx-auto flex h-20 w-20 items-center justify-center rounded-[22px] shadow-[0_20px_50px_rgba(18,19,93,0.12)]",
+                step.number && "mt-5",
+                index % 2 === 0
+                  ? "bg-[var(--color-primary)] text-[var(--color-secondary)]"
+                  : "bg-[var(--color-secondary)] text-white",
+              ]}
+            >
+              <Icon src={step.icon} class="h-9 w-9" />
+            </div>
+
+            <h3 class="mt-6 text-xl font-bold text-[var(--color-secondary)]">
+              {step.title}
+            </h3>
+
+            <p class="mx-auto mt-3 max-w-[18rem] text-sm leading-7 text-[var(--color-text)]/80 md:text-[15px]">
+              {step.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <slot name="footer" />
+  </div>
+</section>

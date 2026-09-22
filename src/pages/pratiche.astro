@@ -1,21 +1,22 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Icon from "../components/ui/Icon.astro";
 import { getPageContent } from "../lib/content";
 import { praticheData } from "../data/pratiche";
 import { icons } from "../lib/icons";
 import praticheHeroBg from "../assets-optimized/logo/Ragazza patente B.webp";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
 import PageHero from "../sections/PageHero.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
 
 const page = await getPageContent("pratiche");
 const { title, description } = page.data;
 
-const renewalItems = praticheData.renewal.items.map((item) => {
+const renewalItems = praticheData.renewal.items.map((item, index) => {
   const [rawTitle, ...rest] = item.split(":");
   return {
+    icon: [icons.podium, icons.fire, icons.gear][index],
     title: rawTitle?.trim() ?? "",
-    body: rest.join(":").trim(),
+    description: rest.join(":").trim(),
   };
 });
 
@@ -70,9 +71,8 @@ const duplicateItems = praticheData.duplicates.items.map((item) => {
   </PageHero>
   <Breadcrumbs />
   <!-- RINNOVO -->
-  <section id="rinnovo" class="section scroll-mt-[140px] overflow-hidden">
-    <div class="container max-w-6xl">
-      <div class="mx-auto max-w-3xl text-center">
+  <ProcessSteps id="rinnovo" steps={renewalItems} class="scroll-mt-[140px]">
+      <div slot="header" class="mx-auto max-w-3xl text-center">
         <h2 class="text-3xl font-bold">
           {praticheData.renewal.title}
         </h2>
@@ -81,47 +81,7 @@ const duplicateItems = praticheData.duplicates.items.map((item) => {
           {praticheData.renewal.body}
         </p>
       </div>
-
-      <div class="relative mt-14">
-        <div class="absolute left-0 right-0 top-10 hidden border-t border-dashed border-[#12135D]/15 xl:block"></div>
-
-        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3 xl:gap-10">
-          {renewalItems.map((item, index) => (
-            <article class="relative text-center">
-              <div
-                class:list={[
-                  "relative z-[1] mx-auto flex h-20 w-20 items-center justify-center rounded-[22px] shadow-[0_20px_50px_rgba(18,19,93,0.12)]",
-                  index % 2 === 0
-                    ? "bg-[#D4FF00] text-[#12135D]"
-                    : "bg-[#12135D] text-white",
-                ]}
-              >
-                {index === 0 && (
-                  <Icon src={icons.podium} class="h-9 w-9" />
-                )}
-
-                {index === 1 && (
-                  <Icon src={icons.fire} class="h-9 w-9" />
-                )}
-
-                {index === 2 && (
-                  <Icon src={icons.gear} class="h-9 w-9" />
-                )}
-              </div>
-
-              <h3 class="mt-6 text-xl font-bold text-[#12135D]">
-                {item.title}
-              </h3>
-
-              <p class="mx-auto mt-3 max-w-[18rem] text-sm leading-7 text-[#2C3E50]/80 md:text-[15px]">
-                {item.body}
-              </p>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div class="mt-10 text-center">
+      <div slot="footer" class="mt-10 text-center">
         <a
           href={praticheData.renewal.cta}
           class="btn-racing-primary"
@@ -132,8 +92,7 @@ const duplicateItems = praticheData.duplicates.items.map((item) => {
           Contattaci
         </a>
       </div>
-    </div>
-  </section>
+  </ProcessSteps>
 
   <!-- CASI SPECIALI -->
   <section class="section section-light">

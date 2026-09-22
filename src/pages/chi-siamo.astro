@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Icon from "../components/ui/Icon.astro";
 import { getPageContent } from "../lib/content";
 import { chiSiamoData } from "../data/chi-siamo";
 import { icons } from "../lib/icons";
@@ -9,6 +8,7 @@ import supportoDedicatoImg from "../assets/logo/Supporto dedicato.jpeg";
 import smartphoneImg from "../assets-optimized/logo/Smartphone 3D.webp";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
 import PageHero from "../sections/PageHero.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
 
 import team01 from "../assets-optimized/Team/team01.webp";
 import team02 from "../assets-optimized/Team/team02.webp";
@@ -22,9 +22,10 @@ const { title, description } = page.data;
 const structureSteps = chiSiamoData.structure.items.map((item, index) => {
   const [rawTitle, ...rest] = item.split(":");
   return {
+    icon: [icons.light, icons.clipboard, icons.map, icons.finish][index],
     number: String(index + 1).padStart(2, "0"),
     title: rawTitle?.trim() ?? "",
-    body: rest.join(":").trim(),
+    description: rest.join(":").trim(),
   };
 });
 
@@ -102,9 +103,8 @@ const teamMembers = [
   <Breadcrumbs />
 
   <!-- STRUTTURA DEL PERCORSO -->
-  <section class="section section-light overflow-hidden">
-    <div class="container max-w-6xl">
-      <div class="mx-auto max-w-3xl text-center">
+  <ProcessSteps steps={structureSteps} class="section-light">
+      <div slot="header" class="mx-auto max-w-3xl text-center">
         <p class="font-montserrat text-sm font-semibold uppercase tracking-[0.18em] text-[#2124BD]">
           Il nostro processo
         </p>
@@ -113,58 +113,7 @@ const teamMembers = [
           {chiSiamoData.structure.title}
         </h2>
       </div>
-
-      <div class="relative mt-14">
-        <div class="absolute left-0 right-0 top-[28px] hidden border-t border-dashed border-[#12135D]/15 md:block"></div>
-
-        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-10">
-          {structureSteps.map((step, index) => (
-            <article class="relative text-center">
-              <div class="relative z-[1] mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#12135D]/10 bg-white shadow-sm">
-                <span class="font-montserrat text-xs font-bold tracking-[0.18em] text-[#12135D]/45">
-                  {step.number}
-                </span>
-              </div>
-
-              <div
-                class:list={[
-                  "mx-auto mt-5 flex h-20 w-20 items-center justify-center rounded-[22px] shadow-[0_20px_50px_rgba(18,19,93,0.12)]",
-                  index === 0 && "bg-[#D4FF00] text-[#12135D]",
-                  index === 1 && "bg-[#12135D] text-white",
-                  index === 2 && "bg-[#D4FF00] text-[#12135D]",
-                  index === 3 && "bg-[#12135D] text-white",
-                ]}
-              >
-                {index === 0 && (
-                  <Icon src={icons.light} class="h-9 w-9" />
-                )}
-
-                {index === 1 && (
-                  <Icon src={icons.clipboard} class="h-9 w-9" />
-                )}
-
-                {index === 2 && (
-                  <Icon src={icons.map} class="h-9 w-9" />
-                )}
-
-                {index === 3 && (
-                  <Icon src={icons.finish} class="h-9 w-9" />
-                )}
-              </div>
-
-              <h3 class="mt-6 font-heading text-xl font-bold italic text-[#12135D]">
-                {step.title}
-              </h3>
-
-              <p class="mx-auto mt-3 max-w-[18rem] font-montserrat text-sm leading-7 text-[#2C3E50]/80 md:text-[15px]">
-                {step.body}
-              </p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
+  </ProcessSteps>
 
   <!-- COME SI PRENDE DAVVERO LA PATENTE -->
   <section id="metodo" class="section scroll-mt-[140px]">

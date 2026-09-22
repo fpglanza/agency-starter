@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Icon from "../components/ui/Icon.astro";
 import { getPageContent } from "../lib/content";
 import { patenteAutoData } from "../data/patente-auto";
 import { icons } from "../lib/icons";
@@ -9,15 +8,17 @@ import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
 import ragazzaPatenteImg from "../assets-optimized/logo/Ragazza patente B.webp";
 import taglioLuceImg from "../assets-optimized/logo/Taglio di luce.webp";
 import PageHero from "../sections/PageHero.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
 
 const page = await getPageContent("patente-auto");
 const { title, description } = page.data;
 
-const pathItems = patenteAutoData.path.items.map((item) => {
+const pathItems = patenteAutoData.path.items.map((item, index) => {
   const [rawTitle, ...rest] = item.split(":");
   return {
+    icon: [icons.start, icons.gearCar, icons.carPedals, icons.cone][index],
     title: rawTitle?.trim() ?? "",
-    body: rest.join(":").trim(),
+    description: rest.join(":").trim(),
   };
 });
 ---
@@ -68,58 +69,13 @@ const pathItems = patenteAutoData.path.items.map((item) => {
   <Breadcrumbs />
 
     <!-- PERCORSO -->
-  <section id="percorso" class="section scroll-mt-[150px] overflow-hidden">
-    <div class="container max-w-6xl">
-      <div class="mx-auto max-w-3xl text-center">
+  <ProcessSteps id="percorso" steps={pathItems} class="scroll-mt-[150px]">
+      <div slot="header" class="mx-auto max-w-3xl text-center">
         <h2 class="text-3xl font-bold">
           {patenteAutoData.path.title}
         </h2>
       </div>
-
-      <div class="relative mt-14">
-        <div class="absolute left-0 right-0 top-10 hidden border-t border-dashed border-[#12135D]/15 xl:block"></div>
-
-        <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-10">
-          {pathItems.map((item, index) => (
-            <article class="relative text-center">
-              <div
-                class:list={[
-                  "relative z-[1] mx-auto flex h-20 w-20 items-center justify-center rounded-[22px] shadow-[0_20px_50px_rgba(18,19,93,0.12)]",
-                  index % 2 === 0
-                    ? "bg-[#D4FF00] text-[#12135D]"
-                    : "bg-[#12135D] text-white",
-                ]}
-              >
-                {index === 0 && (
-                  <Icon src={icons.start} class="h-9 w-9" />
-                )}
-
-                {index === 1 && (
-                  <Icon src={icons.gearCar} class="h-9 w-9" />
-                )}
-
-                {index === 2 && (
-                  <Icon src={icons.carPedals} class="h-9 w-9" />
-                )}
-
-                {index === 3 && (
-                  <Icon src={icons.cone} class="h-9 w-9" />
-                )}
-              </div>
-
-              <h3 class="mt-6 text-xl font-bold text-[#12135D]">
-                {item.title}
-              </h3>
-
-              <p class="mx-auto mt-3 max-w-[18rem] text-sm leading-7 text-[#2C3E50]/80 md:text-[15px]">
-                {item.body}
-              </p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </div>
-  </section>
+  </ProcessSteps>
 
 <!-- COSTI, RECUPERO PUNTI E SUPPORTO -->
 <section class="relative overflow-hidden bg-[var(--color-secondary)] py-24 text-white md:py-32">
