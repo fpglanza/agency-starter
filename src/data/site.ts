@@ -1,3 +1,5 @@
+import logoColor from "../assets/logo/Asset 20RACING LOGO.png";
+
 export const site = {
   name: "Autoscuola Racing",
   legalName: "CIEMME S.r.l. a socio unico",
@@ -13,6 +15,11 @@ export const site = {
   },
   verification: {
     google: "Odi1-K0ZStmL7Htsfu7DZaEDVmYyR6m2NIpBhhAsJTE",
+  },
+  brand: {
+    logo: logoColor.src,
+    logoAlt: "Autoscuola Racing",
+    homeHref: "/",
   },
   phoneFavaro: "041 630163",
   phoneSalzano: "041 5746510",

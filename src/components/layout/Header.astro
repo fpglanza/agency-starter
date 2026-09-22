@@ -1,9 +1,8 @@
 ---
-import { navigation } from "../../data/navigation";
-import { patentiData } from "../../data/patenti";
+import { headerCta, navigation } from "../../data/navigation";
+import { site } from "../../data/site";
 import Icon from "../ui/Icon.astro";
 import { icons } from "../../lib/icons";
-import logoColor from "../../assets/logo/Asset 20RACING LOGO.png";
 
 const normalizePath = (path: string) => {
   if (!path || path === "/") return "/";
@@ -12,23 +11,9 @@ const normalizePath = (path: string) => {
 
 const currentPath = normalizePath(Astro.url.pathname);
 
-const desktopNavigation = navigation.filter((item) => item.href !== "/");
-
-const isNavigationItem = (
-  item: (typeof navigation)[number] | undefined,
-): item is (typeof navigation)[number] => item !== undefined;
-
-const leftNavigation = [
-  navigation.find((item) => item.href === "/"),
-  desktopNavigation.find((item) => item.href === "/chi-siamo"),
-  desktopNavigation.find((item) => item.href === "/patente-auto"),
-].filter(isNavigationItem);
-
-const rightNavigation = [
-  desktopNavigation.find((item) => item.href === "/pratiche"),
-  desktopNavigation.find((item) => item.href === "/patenti"),
-  desktopNavigation.find((item) => item.href === "/contatti"),
-].filter(isNavigationItem);
+const navigationSplit = Math.ceil(navigation.length / 2);
+const leftNavigation = navigation.slice(0, navigationSplit);
+const rightNavigation = navigation.slice(navigationSplit);
 
 const isActive = (href: string) => currentPath === normalizePath(href);
 ---
@@ -57,19 +42,19 @@ const isActive = (href: string) => currentPath === normalizePath(href);
             ))}
           </nav>
 
-          <a href="/" class="mx-3 flex items-center justify-center">
+          <a href={site.brand.homeHref} class="mx-3 flex items-center justify-center">
             <img
-              src={logoColor.src}
-              alt="Autoscuola Racing"
+              src={site.brand.logo}
+              alt={site.brand.logoAlt}
               class="h-11 w-auto"
             />
           </a>
 
           <nav class="flex items-center justify-start gap-8">
             {rightNavigation.map((item) => {
-              const isPatenti = item.href === "/patenti";
+              const hasChildren = Boolean(item.children?.length);
 
-              return isPatenti ? (
+              return hasChildren ? (
                 <div class="group relative">
                   <a
                     href={item.href}
@@ -89,12 +74,12 @@ const isActive = (href: string) => currentPath === normalizePath(href);
                   <div class="pointer-events-none absolute left-0 top-full pt-4 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:opacity-100">
                     <div class="min-w-[260px] rounded-2xl border border-black/5 bg-white p-4 shadow-[0_16px_40px_rgba(0,0,0,0.10)]">
                       <div class="flex flex-col gap-3">
-                        {patentiData.items.map((patente) => (
+                        {item.children?.map((child) => (
                           <a
-                            href={`/patenti#${patente.slug}`}
+                            href={child.href}
                             class="text-sm font-semibold text-[var(--color-secondary)] transition hover:translate-x-[4px]"
                           >
-                            {patente.title}
+                            {child.label}
                           </a>
                         ))}
                       </div>
@@ -125,10 +110,10 @@ const isActive = (href: string) => currentPath === normalizePath(href);
 
     <div class="lg:hidden">
       <div class="flex items-center justify-between rounded-full bg-[var(--color-secondary)] px-5 py-3 shadow-[0_16px_40px_rgba(0,0,0,0.20)]">
-        <a href="/" class="flex items-center">
+        <a href={site.brand.homeHref} class="flex items-center">
           <img
-            src={logoColor.src}
-            alt="Autoscuola Racing"
+            src={site.brand.logo}
+            alt={site.brand.logoAlt}
             class="h-8 w-auto"
           />
         </a>
@@ -155,15 +140,16 @@ const isActive = (href: string) => currentPath === normalizePath(href);
       >
         <nav class="flex flex-col p-5">
           {navigation.map((item) => {
-            const isPatenti = item.href === "/patenti";
+            const hasChildren = Boolean(item.children?.length);
+            const submenuId = item.submenuId ?? "mobile-submenu";
 
-            return isPatenti ? (
+            return hasChildren ? (
               <div class="border-b border-black/5 py-4 last:border-0">
                 <button
                   type="button"
-                  data-mobile-patenti-toggle
+                  data-mobile-submenu-toggle
                   aria-expanded={isActive(item.href) ? "true" : "false"}
-                  aria-controls="mobile-patenti-submenu"
+                  aria-controls={submenuId}
                   class="flex w-full items-center justify-between text-left text-base font-bold uppercase tracking-[0.08em] text-[var(--color-secondary)]"
                 >
                   <span
@@ -177,7 +163,7 @@ const isActive = (href: string) => currentPath === normalizePath(href);
                   </span>
 
                   <span
-                    data-mobile-patenti-icon
+                    data-mobile-submenu-icon
                     class:list={[
                       "transition-transform duration-200",
                       isActive(item.href) ? "rotate-180" : "",
@@ -189,7 +175,7 @@ const isActive = (href: string) => currentPath === normalizePath(href);
                 </button>
 
                 <div
-                  id="mobile-patenti-submenu"
+                  id={submenuId}
                   class:list={[
                     "pt-4",
                     isActive(item.href) ? "" : "hidden",
@@ -197,18 +183,18 @@ const isActive = (href: string) => currentPath === normalizePath(href);
                 >
                   <div class="flex flex-col gap-3 pl-3">
                     <a
-                      href="/patenti"
+                      href={item.href}
                       class="text-sm font-semibold uppercase tracking-[0.06em] text-[var(--color-secondary)]/80"
                     >
-                      Tutte le patenti
+                      {item.overviewLabel ?? item.label}
                     </a>
 
-                    {patentiData.items.map((patente) => (
+                    {item.children?.map((child) => (
                       <a
-                        href={`/patenti#${patente.slug}`}
+                        href={child.href}
                         class="text-sm font-semibold text-[var(--color-secondary)]/80"
                       >
-                        {patente.title}
+                        {child.label}
                       </a>
                     ))}
                   </div>
@@ -233,13 +219,13 @@ const isActive = (href: string) => currentPath === normalizePath(href);
 
         <div class="px-5 pb-5 pt-2">
           <a
-            href="/contatti"
+            href={headerCta.href}
             class="btn-racing-primary w-full justify-center"
-            data-track="cta_click"
-            data-location="header"
-            data-section="mobile-menu"
+            data-track={headerCta.tracking.event}
+            data-location={headerCta.tracking.location}
+            data-section={headerCta.tracking.section}
           >
-            contattaci
+            {headerCta.label}
           </a>
         </div>
       </div>
@@ -257,17 +243,20 @@ const isActive = (href: string) => currentPath === normalizePath(href);
     menu?.classList.toggle("hidden");
   });
 
-  const mobilePatentiToggle = document.querySelector("[data-mobile-patenti-toggle]");
-  const mobilePatentiSubmenu = document.getElementById("mobile-patenti-submenu");
-  const mobilePatentiIcon = document.querySelector("[data-mobile-patenti-icon]");
+  const mobileSubmenuToggle = document.querySelector("[data-mobile-submenu-toggle]");
+  const mobileSubmenuId = mobileSubmenuToggle?.getAttribute("aria-controls");
+  const mobileSubmenu = mobileSubmenuId
+    ? document.getElementById(mobileSubmenuId)
+    : null;
+  const mobileSubmenuIcon = document.querySelector("[data-mobile-submenu-icon]");
 
-  mobilePatentiToggle?.addEventListener("click", () => {
-    const isExpanded = mobilePatentiToggle.getAttribute("aria-expanded") === "true";
-    mobilePatentiToggle.setAttribute("aria-expanded", String(!isExpanded));
-    mobilePatentiSubmenu?.classList.toggle("hidden");
+  mobileSubmenuToggle?.addEventListener("click", () => {
+    const isExpanded = mobileSubmenuToggle.getAttribute("aria-expanded") === "true";
+    mobileSubmenuToggle.setAttribute("aria-expanded", String(!isExpanded));
+    mobileSubmenu?.classList.toggle("hidden");
 
-    if (mobilePatentiIcon instanceof HTMLElement) {
-      mobilePatentiIcon.style.transform = isExpanded ? "rotate(0deg)" : "rotate(180deg)";
+    if (mobileSubmenuIcon instanceof HTMLElement) {
+      mobileSubmenuIcon.style.transform = isExpanded ? "rotate(0deg)" : "rotate(180deg)";
     }
   });
 </script>
