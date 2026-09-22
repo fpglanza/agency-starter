@@ -1,6 +1,6 @@
 ---
-import logoColor from "../../assets/logo/Asset 20RACING LOGO.png";
 import { navigation } from "../../data/navigation";
+import { site } from "../../data/site";
 import { whatsappLink } from "../../lib/whatsapp";
 ---
 
@@ -13,38 +13,38 @@ import { whatsappLink } from "../../lib/whatsapp";
     <!-- LOGO + INFO -->
     <div class="space-y-5">
       <img
-        src={logoColor.src}
-        alt="Autoscuola Racing"
+        src={site.brand.logo}
+        alt={site.brand.logoAlt}
         class="h-12 w-auto object-contain"
       />
 
       <p class="text-sm text-white/70">
-        Autoscuola Racing
+        {site.name}
         <br />
-        Mestre & Favaro Veneto
+        {site.footer.locationSummary}
       </p>
 
       <div class="space-y-2 border-t border-white/10 pt-5 text-xs leading-6 text-white/55">
         <p class="font-semibold text-white/70">
-          Ciemme Srl
+          {site.legal.displayName}
         </p>
 
         <p>
-          P.IVA/C.F. 03367550278
+          P.IVA/C.F. {site.legal.taxId}
           <br />
-          Cod. SDI M5UXCR1
+          Cod. SDI {site.legal.sdi}
         </p>
 
         <p>
           <span class="font-semibold text-white/65">Sede legale</span>
           <br />
-          Via Monte Cervino 23/a
+          {site.legal.registeredOffice}
         </p>
 
         <p>
           <span class="font-semibold text-white/65">Legale rappresentante</span>
           <br />
-          Bellato Cristiano
+          {site.legal.representative}
         </p>
       </div>
     </div>
@@ -54,7 +54,7 @@ import { whatsappLink } from "../../lib/whatsapp";
       <!-- NAV -->
       <div class="flex flex-col gap-3">
         <p class="text-xs uppercase tracking-[0.12em] text-white/50">
-          Navigazione
+          {site.footer.navigationLabel}
         </p>
 
         {navigation.map((item) => (
@@ -70,96 +70,55 @@ import { whatsappLink } from "../../lib/whatsapp";
       <!-- CONTATTI -->
       <div class="flex flex-col gap-6">
         <p class="text-xs uppercase tracking-[0.12em] text-white/50">
-          Contatti
+          {site.footer.contactsLabel}
         </p>
 
-        <!-- FAVARO -->
-        <div class="space-y-1">
-          <p class="text-sm font-semibold text-white">
-            Sede di Favaro Veneto
-          </p>
+        {site.locations.map((location) => (
+          <div class="space-y-1">
+            <p class="text-sm font-semibold text-white">
+              {location.name}
+            </p>
 
-          <p class="text-sm text-white/70">
-            Via M.te Cervino, 23/a<br />
-            30173 Favaro Veneto (VE)
-          </p>
+            <p class="text-sm text-white/70">
+              {location.addressLines[0]}<br />
+              {location.addressLines[1]}
+            </p>
 
-          <a
-            href="tel:+39041630163"
-            class="text-sm text-white/80 transition hover:text-[var(--color-primary)]"
-            data-track="phone_click"
-            data-location="favaro"
-            data-section="footer"
-          >
-            +39 041 630163
-          </a>
+            <a
+              href={location.phone.href}
+              class="text-sm text-white/80 transition hover:text-[var(--color-primary)]"
+              data-track="phone_click"
+              data-location={location.trackingLocation}
+              data-section="footer"
+            >
+              {location.phone.label}
+            </a>
 
-          <p class="text-xs leading-5 text-white/55">
-            Lunedi - Venerdi: 9:00-12:00 / 16:00-19:00
-          </p>
+            <p class="text-xs leading-5 text-white/55">
+              {location.hours}
+            </p>
 
-          <a
-            href={whatsappLink(
-              "393755310899",
-              "Ciao Autoscuola Racing Favaro, vorrei ricevere informazioni."
-            )}
-            class="text-sm text-white/80 transition hover:text-[var(--color-primary)]"
-            data-track="whatsapp_click"
-            data-location="favaro"
-            data-section="footer"
-          >
-            WhatsApp Favaro
-          </a>
-        </div>
-
-        <!-- SALZANO -->
-        <div class="space-y-1">
-          <p class="text-sm font-semibold text-white">
-            Sede di Salzano
-          </p>
-
-          <p class="text-sm text-white/70">
-            Via A. De Gasperi, 84<br />
-            30030 Salzano (VE)
-          </p>
-
-          <a
-            href="tel:+390415746510"
-            class="text-sm text-white/80 transition hover:text-[var(--color-primary)]"
-            data-track="phone_click"
-            data-location="salzano"
-            data-section="footer"
-          >
-            +39 041 5746510
-          </a>
-
-          <p class="text-xs leading-5 text-white/55">
-            Lunedi - Venerdi: 9:00-12:00 / 16:30-19:00
-          </p>
-
-          <a
-            href={whatsappLink(
-              "393755184936",
-              "Ciao Autoscuola Racing Salzano, vorrei ricevere informazioni."
-            )}
-            class="text-sm text-white/80 transition hover:text-[var(--color-primary)]"
-            data-track="whatsapp_click"
-            data-location="salzano"
-            data-section="footer"
-          >
-            WhatsApp Salzano
-          </a>
-        </div>
+            <a
+              href={whatsappLink(location.whatsapp.phone, location.whatsapp.message)}
+              class="text-sm text-white/80 transition hover:text-[var(--color-primary)]"
+              data-track="whatsapp_click"
+              data-location={location.trackingLocation}
+              data-section="footer"
+            >
+              {location.whatsapp.label}
+            </a>
+          </div>
+        ))}
 
         <!-- LINK CONTATTI -->
         <a
-          href="/contatti"
+          href={site.footer.contactPageLink.href}
           class="pt-2 text-sm font-semibold transition hover:text-[var(--color-primary)]"
           data-track="cta_click"
           data-location="footer"
           data-section="contacts"
         >
-          Vai alla pagina contatti
+          {site.footer.contactPageLink.label}
         </a>
       </div>
     </div>
@@ -169,29 +128,29 @@ import { whatsappLink } from "../../lib/whatsapp";
     <!-- BOTTOM -->
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <p class="text-xs text-white/60">
-        © 2026 Autoscuola Racing. Tutti i diritti riservati.
+        © {site.footer.copyrightYear} {site.name}. {site.footer.copyrightNotice}
       </p>
 
       <div class="flex flex-wrap gap-6 text-xs">
         <a
-          href="/privacy-policy"
+          href={site.footer.privacyLink.href}
           class="hover:text-[var(--color-primary)]"
         >
-          Privacy Policy
+          {site.footer.privacyLink.label}
         </a>
 
         <a
-          href="/cookie-policy"
+          href={site.footer.cookieLink.href}
           class="hover:text-[var(--color-primary)]"
         >
-          Cookie Policy
+          {site.footer.cookieLink.label}
         </a>
 
         <a
           href="#"
           class="lb-cs-settings-link hover:text-[var(--color-primary)]"
         >
-          Aggiorna preferenze cookie
+          {site.footer.cookieSettingsLabel}
         </a>
       </div>
     </div>
