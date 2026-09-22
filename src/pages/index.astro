@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ImageNarrativeSection from "../sections/ImageNarrativeSection.astro";
 import StickySplitSection from "../sections/StickySplitSection.astro";
 import Icon from "../components/ui/Icon.astro";
 import { getPageContent } from "../lib/content";
@@ -247,28 +248,12 @@ const { title, description } = page.data;
   </section>
 
   <!-- PERCHÉ SCEGLIERE IL METODO RACING -->
-  <section class="relative overflow-hidden">
-
-    <!-- BACKGROUND -->
-    <div class="absolute inset-0">
-      <img
-        src={lightTrailImg.src}
-        alt=""
-        class="h-full w-full object-cover"
-      />
-
-      <!-- overlay cinematic -->
+  <ImageNarrativeSection backgroundImage={lightTrailImg.src}>
+    <Fragment slot="overlays">
       <div class="absolute inset-0 bg-[rgba(7,10,35,0.72)] mix-blend-multiply"></div>
 
-      <!-- gradiente lettura -->
       <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-[var(--color-secondary)]/35 to-[var(--color-secondary)]/75"></div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="relative z-10">
-      <div class="container py-28 md:py-36">
-
-        <div class="max-w-4xl">
+    </Fragment>
 
           <p class="mb-5 text-xs uppercase tracking-[0.28em] text-white/50">
             Autoscuola Racing
@@ -283,13 +268,7 @@ const { title, description } = page.data;
               <p>{paragraph}</p>
             ))}
           </div>
-
-        </div>
-
-      </div>
-    </div>
-
-  </section>
+  </ImageNarrativeSection>
 
   <!-- STORIA E TERRITORIO -->
   <section class="section">

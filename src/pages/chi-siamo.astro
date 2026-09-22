@@ -7,6 +7,7 @@ import chiSiamoHeroBg from "../assets/logo/Team 6.jpg";
 import supportoDedicatoImg from "../assets/logo/Supporto dedicato.jpeg";
 import smartphoneImg from "../assets-optimized/logo/Smartphone 3D.webp";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+import ImageNarrativeSection from "../sections/ImageNarrativeSection.astro";
 import PageHero from "../sections/PageHero.astro";
 import ProcessSteps from "../sections/ProcessSteps.astro";
 
@@ -260,22 +261,13 @@ const teamMembers = [
   </section>
 
   <!-- SUPPORTO -->
-  <section class="relative overflow-hidden">
-    <div class="absolute inset-0">
-      <img
-        src={supportoDedicatoImg.src}
-        alt=""
-        class="h-full w-full object-cover"
-      />
-
+  <ImageNarrativeSection backgroundImage={supportoDedicatoImg.src}>
+    <Fragment slot="overlays">
       <div class="absolute inset-0 bg-[rgba(7,10,35,0.28)] mix-blend-multiply"></div>
 
       <div class="absolute inset-0 bg-gradient-to-b from-black/0 via-[var(--color-secondary)]/12 to-[var(--color-secondary)]/38"></div>
-    </div>
+    </Fragment>
 
-    <div class="relative z-10">
-      <div class="container py-28 md:py-36">
-        <div class="max-w-4xl">
           <h2 class="max-w-3xl text-[34px] uppercase leading-[0.9] text-[var(--color-primary)] md:text-[64px]">
             {chiSiamoData.support.title}
           </h2>
@@ -285,8 +277,5 @@ const teamMembers = [
               <p>{p}</p>
             ))}
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </ImageNarrativeSection>
 </BaseLayout>
