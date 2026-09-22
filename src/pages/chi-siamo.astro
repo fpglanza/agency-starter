@@ -8,6 +8,7 @@ import chiSiamoHeroBg from "../assets/logo/Team 6.jpg";
 import supportoDedicatoImg from "../assets/logo/Supporto dedicato.jpeg";
 import smartphoneImg from "../assets-optimized/logo/Smartphone 3D.webp";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+import PageHero from "../sections/PageHero.astro";
 
 import team01 from "../assets-optimized/Team/team01.webp";
 import team02 from "../assets-optimized/Team/team02.webp";
@@ -58,19 +59,11 @@ const teamMembers = [
 
 <BaseLayout title={title} description={description}>
   <!-- HERO -->
-  <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
-    <img
-      src={chiSiamoHeroBg.src}
-      alt="Team Autoscuola Racing"
-      class="absolute inset-0 h-full w-full object-cover"
-    />
-
-    <div class="absolute inset-0 hero-overlay-main"></div>
-    <div class="absolute inset-0 hero-overlay-side"></div>
-
-    <div class="relative z-10 flex min-h-screen items-center">
-      <div class="container">
-        <div class="max-w-3xl pt-56 pb-16 text-left md:pt-64 lg:pt-72">
+  <PageHero
+    backgroundImage={chiSiamoHeroBg.src}
+    backgroundAlt="Team Autoscuola Racing"
+    contentClass="pt-56 pb-16 md:pt-64 lg:pt-72"
+  >
           <p class="mb-3 text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-white/80 md:text-xs">
             Il nostro metodo
           </p>
@@ -104,10 +97,7 @@ const teamMembers = [
               scopri il metodo
             </a>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </PageHero>
 
   <Breadcrumbs />
 

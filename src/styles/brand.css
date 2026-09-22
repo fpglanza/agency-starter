@@ -92,6 +92,10 @@ h2, h3 {
    PROJECT HERO TREATMENTS
 ===================== */
 
+.page-hero {
+  background: #05091f;
+}
+
 .hero-overlay-main {
 
   background: linear-gradient(

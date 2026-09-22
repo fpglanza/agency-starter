@@ -8,6 +8,7 @@ import autoHeroBg from "../assets-optimized/logo/Auto (sfondo con overlay).webp"
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
 import ragazzaPatenteImg from "../assets-optimized/logo/Ragazza patente B.webp";
 import taglioLuceImg from "../assets-optimized/logo/Taglio di luce.webp";
+import PageHero from "../sections/PageHero.astro";
 
 const page = await getPageContent("patente-auto");
 const { title, description } = page.data;
@@ -23,22 +24,10 @@ const pathItems = patenteAutoData.path.items.map((item) => {
 
 <BaseLayout title={title} description={description}>
   <!-- HERO -->
-  <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
-    <img
-      src={autoHeroBg.src}
-      alt="Patente auto Autoscuola Racing"
-      class="absolute inset-0 h-full w-full object-cover"
-    />
-
-    <!-- Overlay coerente con homepage -->
-    <div class="absolute inset-0 hero-overlay-main"></div>
-
-    <!-- Overlay laterale per leggibilità testo a sinistra -->
-    <div class="absolute inset-0 hero-overlay-side"></div>
-
-    <div class="relative z-10 flex min-h-screen items-center">
-      <div class="container">
-        <div class="max-w-3xl pt-28 pb-16 text-left">
+  <PageHero
+    backgroundImage={autoHeroBg.src}
+    backgroundAlt="Patente auto Autoscuola Racing"
+  >
           <h1 class="!mb-3 !block !font-body !text-[10px] !font-bold !not-italic !uppercase !leading-none !tracking-[0.18em] !text-white/80 ![text-shadow:none] md:!text-xs">
             Patente B a Mestre e Salzano
           </h1>
@@ -74,10 +63,7 @@ const pathItems = patenteAutoData.path.items.map((item) => {
               scopri il percorso
             </a>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </PageHero>
 
   <Breadcrumbs />
 

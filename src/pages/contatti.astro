@@ -7,6 +7,7 @@ import { icons } from "../lib/icons";
 import { whatsappLink } from "../lib/whatsapp";
 import contattiHeroBg from "../assets-optimized/logo/Taglio di luce.webp";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+import PageHero from "../sections/PageHero.astro";
 
 const page = await getPageContent("contatti");
 const { title, description } = page.data;
@@ -14,26 +15,15 @@ const { title, description } = page.data;
 
 <BaseLayout title={title} description={description}>
   <!-- HERO -->
-  <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
-    <img
-      src={contattiHeroBg.src}
-      alt="Contatti Autoscuola Racing"
-      class="absolute inset-0 h-full w-full object-cover"
-    />
+  <PageHero
+    backgroundImage={contattiHeroBg.src}
+    backgroundAlt="Contatti Autoscuola Racing"
+  >
+          <Fragment slot="decorations">
+            <div class="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[var(--color-primary)]/15 blur-3xl"></div>
+            <div class="absolute -right-24 bottom-20 h-72 w-72 rounded-full bg-[var(--color-primary)]/10 blur-3xl"></div>
+          </Fragment>
 
-    <!-- Overlay coerente con homepage -->
-    <div class="absolute inset-0 hero-overlay-main"></div>
-
-    <!-- Overlay laterale per leggibilità testo a sinistra -->
-    <div class="absolute inset-0 hero-overlay-side"></div>
-
-    <!-- Luce decorativa -->
-    <div class="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[var(--color-primary)]/15 blur-3xl"></div>
-    <div class="absolute -right-24 bottom-20 h-72 w-72 rounded-full bg-[var(--color-primary)]/10 blur-3xl"></div>
-
-    <div class="relative z-10 flex min-h-screen items-center">
-      <div class="container">
-        <div class="max-w-3xl pt-28 pb-16 text-left">
           <p class="mb-3 text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-white/80 md:text-xs">
             Contatti
           </p>
@@ -67,10 +57,7 @@ const { title, description } = page.data;
               visite mediche
             </a>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </PageHero>
   <Breadcrumbs />
   <!-- SEDI -->
   <section id="sedi" class="section section-light scroll-mt-[140px] overflow-hidden">

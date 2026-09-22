@@ -6,6 +6,7 @@ import { praticheData } from "../data/pratiche";
 import { icons } from "../lib/icons";
 import praticheHeroBg from "../assets-optimized/logo/Ragazza patente B.webp";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+import PageHero from "../sections/PageHero.astro";
 
 const page = await getPageContent("pratiche");
 const { title, description } = page.data;
@@ -29,22 +30,10 @@ const duplicateItems = praticheData.duplicates.items.map((item) => {
 
 <BaseLayout title={title} description={description}>
   <!-- HERO -->
-  <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
-    <img
-      src={praticheHeroBg.src}
-      alt="Pratiche patente Autoscuola Racing"
-      class="absolute inset-0 h-full w-full object-cover"
-    />
-
-    <!-- Overlay coerente con homepage -->
-    <div class="absolute inset-0 hero-overlay-main"></div>
-
-    <!-- Overlay laterale per leggibilità testo a sinistra -->
-    <div class="absolute inset-0 hero-overlay-side"></div>
-
-    <div class="relative z-10 flex min-h-screen items-center">
-      <div class="container">
-        <div class="max-w-3xl pt-28 pb-16 text-left">
+  <PageHero
+    backgroundImage={praticheHeroBg.src}
+    backgroundAlt="Pratiche patente Autoscuola Racing"
+  >
           <p class="mb-3 text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-white/80 md:text-xs">
             Pratiche patente
           </p>
@@ -78,10 +67,7 @@ const duplicateItems = praticheData.duplicates.items.map((item) => {
               scopri le pratiche
             </a>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </PageHero>
   <Breadcrumbs />
   <!-- RINNOVO -->
   <section id="rinnovo" class="section scroll-mt-[140px] overflow-hidden">

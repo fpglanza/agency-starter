@@ -5,26 +5,15 @@ import { patentiData } from "../data/patenti";
 import { icons } from "../lib/icons";
 import patentiHeroBg from "../assets-optimized/logo/volante auto R.webp";
 import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
+import PageHero from "../sections/PageHero.astro";
 ---
 
 <BaseLayout title="Le nostre patenti">
   <!-- HERO -->
-  <section class="relative min-h-screen w-full overflow-hidden bg-[#05091f]">
-    <img
-      src={patentiHeroBg.src}
-      alt="Le nostre patenti Autoscuola Racing"
-      class="absolute inset-0 h-full w-full object-cover"
-    />
-
-    <!-- Overlay coerente con homepage -->
-    <div class="absolute inset-0 hero-overlay-main"></div>
-
-    <!-- Overlay laterale per leggibilità testo a sinistra -->
-    <div class="absolute inset-0 hero-overlay-side"></div>
-
-    <div class="relative z-10 flex min-h-screen items-center">
-      <div class="container">
-        <div class="max-w-3xl pt-28 pb-16 text-left">
+  <PageHero
+    backgroundImage={patentiHeroBg.src}
+    backgroundAlt="Le nostre patenti Autoscuola Racing"
+  >
           <p class="mb-3 text-[10px] font-bold uppercase leading-none tracking-[0.18em] text-white/80 md:text-xs">
             Patenti
           </p>
@@ -58,10 +47,7 @@ import Breadcrumbs from "../components/ui/Breadcrumbs.astro";
               chiedi informazioni
             </a>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  </PageHero>
   <Breadcrumbs />
   <section id="lista-patenti" class="section scroll-mt-[140px]">
     <div class="container max-w-4xl">
