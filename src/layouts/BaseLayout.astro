@@ -5,6 +5,8 @@ import Footer from "../components/layout/Footer.astro";
 import { site } from "../data/site";
 
 const GTM_ID = import.meta.env.PUBLIC_GTM_ID;
+const analytics = site.integrations.analytics;
+const consent = site.integrations.consent;
 
 interface Props {
   title?: string;
@@ -25,58 +27,58 @@ const ogImageURL = new URL(image, site.url);
 <!doctype html>
 <html lang={site.language}>
   <head>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
+    {analytics && (
+      <script is:inline define:vars={{ measurementId: analytics.measurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        window.__trackingConfig = { measurementId };
+      </script>
+    )}
 
-      gtag('consent', 'default', {
-        ad_storage: 'denied',
-        analytics_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        functionality_storage: 'denied',
-        security_storage: 'granted'
-      });
+    {analytics && consent && (
+      <script is:inline define:vars={{ measurementId: analytics.measurementId }}>
+        const deniedConsent = {
+          ad_storage: 'denied',
+          analytics_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          functionality_storage: 'denied',
+          security_storage: 'granted'
+        };
 
-      const deniedConsent = {
-        ad_storage: 'denied',
-        analytics_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        functionality_storage: 'denied',
-        security_storage: 'granted'
-      };
+        const grantedConsent = {
+          ad_storage: 'granted',
+          analytics_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          functionality_storage: 'granted',
+          security_storage: 'granted'
+        };
 
-      const grantedConsent = {
-        ad_storage: 'granted',
-        analytics_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        functionality_storage: 'granted',
-        security_storage: 'granted'
-      };
+        gtag('consent', 'default', deniedConsent);
 
-      // Bridge LegalBlink consent events to Google Consent Mode v2.
-      window.addEventListener('legalblinkconsentgiven', function () {
-        gtag('consent', 'update', grantedConsent);
-        gtag('event', 'page_view', {
-          send_to: 'G-N5XYL25R5K',
-          page_location: window.location.href,
-          page_title: document.title
+        // Bridge LegalBlink consent events to Google Consent Mode v2.
+        window.addEventListener('legalblinkconsentgiven', function () {
+          gtag('consent', 'update', grantedConsent);
+          gtag('event', 'page_view', {
+            send_to: measurementId,
+            page_location: window.location.href,
+            page_title: document.title
+          });
         });
-      });
 
-      // Keep Google Consent Mode denied when only necessary cookies are active.
-      window.addEventListener('legalblink_necessary', function () {
-        gtag('consent', 'update', deniedConsent);
-      });
+        // Keep Google Consent Mode denied when only necessary cookies are active.
+        window.addEventListener('legalblink_necessary', function () {
+          gtag('consent', 'update', deniedConsent);
+        });
 
-      window.addEventListener('legalblink_history_change', function () {
-        gtag('consent', 'update', deniedConsent);
-      });
-    </script>
+        window.addEventListener('legalblink_history_change', function () {
+          gtag('consent', 'update', deniedConsent);
+        });
+      </script>
+    )}
 
-    {GTM_ID && (
+    {analytics && GTM_ID && (
       <script is:inline define:vars={{ GTM_ID }}>
         (function(w,d,s,l,i){
           w[l]=w[l]||[];
@@ -131,18 +133,29 @@ const ogImageURL = new URL(image, site.url);
     </main>
     <Footer />
 
-    <script>
-      import "../scripts/tracking.ts";
-    </script>
+    {analytics && (
+      <script>
+        import "../scripts/tracking.ts";
+      </script>
+    )}
 
-    <script
-      is:inline
-      type="text/javascript"
-      src="https://app.legalblink.it/api/scripts/lb_cs.js"
-    ></script>
+    {consent && (
+      <script
+        is:inline
+        type="text/javascript"
+        src="https://app.legalblink.it/api/scripts/lb_cs.js"
+      ></script>
+    )}
 
-    <script is:inline id="lb_cs" type="text/javascript">
-      lb_cs("6a156ab7b5317900235bc1db");
-    </script>
+    {consent && (
+      <script
+        is:inline
+        id="lb_cs"
+        type="text/javascript"
+        define:vars={{ tenantId: consent.legalBlinkTenantId }}
+      >
+        lb_cs(tenantId);
+      </script>
+    )}
   </body>
 </html>

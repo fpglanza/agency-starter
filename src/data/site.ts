@@ -1,5 +1,23 @@
 import logoColor from "../assets/logo/Asset 20RACING LOGO.png";
 
+interface IntegrationsConfig {
+  analytics: {
+    measurementId: string;
+  } | null;
+  consent: {
+    legalBlinkTenantId: string;
+  } | null;
+}
+
+const integrations: IntegrationsConfig = {
+  analytics: {
+    measurementId: "G-N5XYL25R5K",
+  },
+  consent: {
+    legalBlinkTenantId: "6a156ab7b5317900235bc1db",
+  },
+};
+
 export const site = {
   name: "Autoscuola Racing",
   legalName: "CIEMME S.r.l. a socio unico",
@@ -16,6 +34,7 @@ export const site = {
   verification: {
     google: "Odi1-K0ZStmL7Htsfu7DZaEDVmYyR6m2NIpBhhAsJTE",
   },
+  integrations,
   brand: {
     logo: logoColor.src,
     logoAlt: "Autoscuola Racing",

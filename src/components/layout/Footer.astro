@@ -146,12 +146,14 @@ import { whatsappLink } from "../../lib/whatsapp";
           {site.footer.cookieLink.label}
         </a>
 
-        <a
-          href="#"
-          class="lb-cs-settings-link hover:text-[var(--color-primary)]"
-        >
-          {site.footer.cookieSettingsLabel}
-        </a>
+        {site.integrations.consent && (
+          <a
+            href="#"
+            class="lb-cs-settings-link hover:text-[var(--color-primary)]"
+          >
+            {site.footer.cookieSettingsLabel}
+          </a>
+        )}
       </div>
     </div>
 

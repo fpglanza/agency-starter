@@ -1,6 +1,8 @@
 type TrackingWindow = Window & {
   gtag?: (command: "event", eventName: string, parameters: TrackingParameters) => void;
-  __racingTrackingDebug?: boolean;
+  __trackingConfig?: {
+    measurementId: string;
+  };
   __trackingInitialized?: boolean;
 };
 
@@ -18,10 +20,10 @@ type TrackingParameters = {
 };
 
 const trackingWindow = window as TrackingWindow;
-const GA4_MEASUREMENT_ID = "G-N5XYL25R5K";
+const measurementId = trackingWindow.__trackingConfig?.measurementId;
 const NAVIGATION_FALLBACK_MS = 600;
 
-if (!trackingWindow.__trackingInitialized) {
+if (measurementId && !trackingWindow.__trackingInitialized) {
   trackingWindow.__trackingInitialized = true;
 
   document.addEventListener(
@@ -50,7 +52,7 @@ if (!trackingWindow.__trackingInitialized) {
       if (!eventName) return;
 
       const parameters: TrackingParameters = {
-        send_to: GA4_MEASUREMENT_ID,
+        send_to: measurementId,
         event_category: "engagement",
         location: element.dataset.location || "",
         section: element.dataset.section || "",
