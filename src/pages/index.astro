@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import StickySplitSection from "../sections/StickySplitSection.astro";
 import Icon from "../components/ui/Icon.astro";
 import { getPageContent } from "../lib/content";
 import { homeData } from "../data/home";
@@ -306,13 +307,11 @@ const { title, description } = page.data;
   </section>
 
   <!-- INFO PRATICHE E CONTATTI -->
-  <section class="relative overflow-hidden bg-[#F8F9FF] py-24 md:py-32">
-    <div class="container max-w-6xl">
-
-      <div class="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-
-        <!-- INTRO -->
-        <div class="lg:sticky lg:top-32">
+  <StickySplitSection
+    class="bg-[#F8F9FF]"
+    desktopColumnsClass="lg:grid-cols-[0.85fr_1.15fr]"
+  >
+        <Fragment slot="sticky">
           <p class="mb-4 text-xs uppercase tracking-[0.25em] text-[var(--color-secondary)]/45">
             contatti e sedi
           </p>
@@ -338,10 +337,9 @@ const { title, description } = page.data;
               </a>
             ))}
           </div>
-        </div>
+        </Fragment>
 
-        <!-- CONTENT -->
-        <div class="space-y-6">
+        <Fragment slot="content">
 
           <!-- SEDI -->
           <div class="grid gap-6 md:grid-cols-2">
@@ -438,9 +436,6 @@ const { title, description } = page.data;
               </p>
             </div>
           </article>
-
-        </div>
-      </div>
-    </div>
-  </section>
+        </Fragment>
+  </StickySplitSection>
 </BaseLayout>

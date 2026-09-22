@@ -9,6 +9,7 @@ import ragazzaPatenteImg from "../assets-optimized/logo/Ragazza patente B.webp";
 import taglioLuceImg from "../assets-optimized/logo/Taglio di luce.webp";
 import PageHero from "../sections/PageHero.astro";
 import ProcessSteps from "../sections/ProcessSteps.astro";
+import StickySplitSection from "../sections/StickySplitSection.astro";
 
 const page = await getPageContent("patente-auto");
 const { title, description } = page.data;
@@ -253,12 +254,12 @@ const pathItems = patenteAutoData.path.items.map((item, index) => {
 </section>
   
   <!-- PROSSIMI PASSI -->
-  <section id="prossimi-passi" class="relative scroll-mt-[50px] overflow-hidden bg-[#F8F9FF] py-24 md:py-32">
-    <div class="container max-w-6xl">
-      <div class="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-
-        <!-- INTRO + IMMAGINE -->
-        <div class="lg:sticky lg:top-32">
+  <StickySplitSection
+    id="prossimi-passi"
+    class="scroll-mt-[50px] bg-[#F8F9FF]"
+    desktopColumnsClass="lg:grid-cols-[0.9fr_1.1fr]"
+  >
+        <Fragment slot="sticky">
           <p class="mb-4 text-xs uppercase tracking-[0.25em] text-[var(--color-secondary)]/45">
             prossimi passi
           </p>
@@ -292,10 +293,9 @@ const pathItems = patenteAutoData.path.items.map((item, index) => {
               class="h-[360px] w-full object-cover md:h-[440px] lg:h-[500px]"
             />
           </div>
-        </div>
+        </Fragment>
 
-        <!-- CONTENT -->
-        <div class="space-y-6">
+        <Fragment slot="content">
 
           <!-- SEDI -->
           <div class="grid gap-6 md:grid-cols-2">
@@ -397,11 +397,8 @@ const pathItems = patenteAutoData.path.items.map((item, index) => {
               </p>
             </div>
           </article>
-
-        </div>
-      </div>
-    </div>
-  </section>
+        </Fragment>
+  </StickySplitSection>
 
   <!-- FAQ -->
   <section class="section section-light">
